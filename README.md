@@ -58,13 +58,24 @@ Donut chart showing emission contributions by state.
 ### 4. Top Counties by Emissions
 Bar chart highlighting counties with the highest emissions.
 
-## Example SQL Query
+## Data Files in This Repository
 
-```sql
-SELECT 
-county_state_name,
-population,
-CAST(REPLACE(`GHG emissions mtons CO2e`, ',', '') AS DOUBLE) AS total_emissions
-FROM emissions.default.emissions_data
-ORDER BY total_emissions DESC
-LIMIT 10;
+- `data/Emissions_Data_2023.csv` – raw emissions dataset used for analysis  
+- `data/Emissions_Data_2023.xlsx` – Excel version of the same dataset  
+- `dashboards/Emission_Dashboard.png` – exported image of the Databricks dashboard  
+
+Upload the CSV file into your Databricks workspace (for example into the `emissions.default` schema) before running the SQL scripts.
+
+## SQL Scripts
+
+- `sql/create_table.sql` – creates the `emissions.default.emissions_data` table  
+- `sql/data_cleaning.sql` – cleans and standardizes population and emissions fields  
+- `sql/total_emissions_by_state.sql` – aggregates emissions by state  
+- `sql/top_counties_emissions.sql` – returns the top counties by total emissions  
+- `sql/emission_per_person.sql` – computes emissions per person for each county  
+
+Run these scripts in Databricks SQL in the following order:
+
+1. `sql/create_table.sql` (create the table)  
+2. Load data into `emissions.default.emissions_data` from the CSV  
+3. `sql/data_cleaning.sql` and the analytical queries as needed  
